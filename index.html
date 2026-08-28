@@ -1418,7 +1418,7 @@ envelope.addEventListener("click", () => {
         block: "start"
       });
 
-  }, 6500);
+  }, 10000);
 
 });
 
@@ -1495,4 +1495,19 @@ setInterval(
 </script>
 
 </body>
+  /* OPRAVA POZVÁNKY V OBÁLCE */
+
+.envelope .invitation {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(25px);
+    transition:
+        opacity 0.8s ease,
+        transform 2s cubic-bezier(.22,1,.36,1);
+}
+
+.envelope.open .invitation {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-105px);
+}
 </html>
