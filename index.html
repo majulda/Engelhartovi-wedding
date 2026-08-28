@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Maruška & Olda</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=Parisienne&display=swap');
+
+    :root {
+      --blue: #dceff2;
+      --blue-deep: #9fcbd3;
+      --blue-text: #34515b;
+      --cream: #fbf8ef;
+      --sage: #b7cbbb;
+      --rose: #e9b7b0;
+      --white: #fffdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--blue);
+      color: var(--blue-text);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* =========================
+       OPENING
+    ========================= */
+
+    .opening {
+      min-height: 100vh;
+      min-height: 100svh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255,255,255,.8), transparent 45%),
+        linear-gradient(145deg, #eef8f8, #dceff2);
+    }
+
+    .opening-label {
+      position: absolute;
+      top: 7%;
+      left: 8%;
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: #739ca5;
+    }
+
+    .temporary-monogram {
+      position: absolute;
+      top: 7%;
+      right: 8%;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 19px;
+      font-style: italic;
+      color: var(--blue-text);
+    }
+
+    .temporary-monogram::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin: 0 9px 3px 0;
+      border-radius: 50%;
+      background: var(--rose);
+    }
+
+    .envelope-stage {
+      position: relative;
+      width: min(600px, 82vw);
+      height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* The invitation */
+
+    .invitation {
+      position: absolute;
+      z-index: 2;
+      width: 62%;
+      max-width: 330px;
+      height: 330px;
+      bottom: 72px;
+      background: var(--cream);
+      border: 1px solid rgba(52,81,91,.12);
+      box-shadow: 0 18px 45px rgba(52,81,91,.16);
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      transform: translateY(180px);
+      transition:
+        transform 1.5s cubic-bezier(.22,.8,.25,1),
+        box-shadow 1s ease;
+    }
+
+    .invitation::before {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border: 1px solid rgba(52,81,91,.12);
+      pointer-events: none;
+    }
+
+    .invitation-small {
+      font-size: 8px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #709ba4;
+      margin-bottom: 20px;
+    }
+
+    .invitation-names {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(34px, 7vw, 48px);
+      line-height: .95;
+      color: var(--blue-text);
+    }
+
+    .invitation-names span {
+      color: var(--rose);
+      font-style: italic;
+    }
+
+    .invitation-date {
+      margin-top: 22px;
+      color: #709ba4;
+      font-size: 13px;
+      letter-spacing: .2em;
+    }
+
+    .invitation-line {
+      width: 70px;
+      height: 1px;
+      margin: 19px 0;
+      background: rgba(52,81,91,.18);
+    }
+
+    .invitation-text {
+      width: 70%;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    /* Envelope */
+
+    .envelope {
+      position: absolute;
+      z-index: 3;
+      width: 72%;
+      max-width: 390px;
+      aspect-ratio: 1.55;
+      bottom: 45px;
+      cursor: pointer;
+      perspective: 900px;
+      filter: drop-shadow(0 18px 20px rgba(52,81,91,.15));
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: #d0e8eb;
+      border: 1px solid rgba(52,81,91,.14);
+      border-radius: 4px;
+    }
+
+    .envelope-front {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .envelope-front::before,
+    .envelope-front::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 72%;
+      height: 100%;
+      background: #d9eef0;
+    }
+
+    .envelope-front::before {
+      left: 0;
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+
+    .envelope-front::after {
+      right: 0;
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Top flap */
+
+    .envelope-flap {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      transition: transform 1s cubic-bezier(.3,.8,.25,1);
+      clip-path: polygon(0 0, 100% 0, 50% 58%);
+      background: #edf4ee;
+      border-top: 1px solid rgba(52,81,91,.12);
+    }
+
+    .seal {
+      position: absolute;
+      z-index: 8;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -15%);
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: var(--rose);
+      border: 5px solid rgba(255,253,248,.8);
+      box-shadow: 0 4px 15px rgba(52,81,91,.14);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: white;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 19px;
+    }
+
+    .open-label {
+      position: absolute;
+      z-index: 10;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #709ba4;
+    }
+
+    /* Opening animation */
+
+    .opening.opened .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .opening.opened .seal {
+      opacity: 0;
+      transform: translate(-50%, -15%) scale(.5);
+      transition: all .5s ease;
+    }
+
+    .opening.opened .invitation {
+      transform: translateY(-55px);
+      box-shadow: 0 28px 60px rgba(52,81,91,.20);
+      z-index: 6;
+    }
+
+    .opening.opened .open-label {
+      opacity: 0;
+    }
+
+    .opening-hint {
+      position: absolute;
+      bottom: 8%;
+      font-size: 11px;
+      letter-spacing: .12em;
+      color: #7c9ca2;
+      opacity: .8;
+    }
+
+    /* =========================
+       BOTANICALS
+    ========================= */
+
+    .branch {
+      position: absolute;
+      width: 190px;
+      height: 250px;
+      opacity: .42;
+      pointer-events: none;
+      animation: sway 7s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    .branch.left {
+      left: -35px;
+      bottom: -35px;
+    }
+
+    .branch.right {
+      right: -35px;
+      bottom: -35px;
+      transform: scaleX(-1);
+      animation-delay: -2s;
+    }
+
+    .stem {
+      position: absolute;
+      width: 1px;
+      height: 220px;
+      bottom: 0;
+      left: 50%;
+      background: var(--sage);
+      transform: rotate(-25deg);
+      transform-origin: bottom;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 35px;
+      height: 18px;
+      border: 1px solid var(--sage);
+      border-radius: 100% 0 100% 0;
+      background: rgba(183,203,187,.15);
+    }
+
+    .leaf:nth-child(2) { left: 53px; bottom: 55px; transform: rotate(-30deg); }
+    .leaf:nth-child(3) { left: 76px; bottom: 86px; transform: rotate(25deg); }
+    .leaf:nth-child(4) { left: 37px; bottom: 112px; transform: rotate(-28deg); }
+    .leaf:nth-child(5) { left: 62px; bottom: 145px; transform: rotate(25deg); }
+    .leaf:nth-child(6) { left: 22px; bottom: 170px; transform: rotate(-25deg); }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    /* =========================
+       MAIN WEBSITE
+    ========================= */
+
+    .website {
+      background: var(--cream);
+    }
+
+    .hero {
+      min-height: 90vh;
+      padding: 120px 8vw 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #709ba4;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(60px, 11vw, 120px);
+      line-height: .78;
+      letter-spacing: -.04em;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--rose);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      max-width: 530px;
+      margin: 35px auto 0;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    /* Countdown */
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: clamp(15px, 5vw, 50px);
+      margin-top: 65px;
+    }
+
+    .countdown-item {
+      min-width: 55px;
+      text-align: center;
+    }
+
+    .countdown-number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(34px, 6vw, 54px);
+      line-height: 1;
+    }
+
+    .countdown-label {
+      margin-top: 7px;
+      font-size: 8px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #709ba4;
+    }
+
+    /* General sections */
+
+    section.content-section {
+      padding: 120px 9vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blue-section {
+      background: #dceff2;
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #709ba4;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0 0 25px;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(46px, 7vw, 75px);
+      line-height: .9;
+    }
+
+    h2 em {
+      color: var(--rose);
+      font-weight: 400;
+    }
+
+    .story-text {
+      max-width: 650px;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #65777c;
+    }
+
+    /* Photo placeholder */
+
+    .photo-placeholder {
+      margin-top: 55px;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background:
+        linear-gradient(135deg, rgba(159,203,211,.25), rgba(183,203,187,.22)),
+        #edf2ec;
+      border: 1px solid rgba(52,81,91,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #7c999d;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 22px;
+    }
+
+    /* Wedding day */
+
+    .timeline {
+      margin-top: 60px;
+      border-left: 1px solid rgba(52,81,91,.25);
+      padding-left: 35px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 45px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--rose);
+      left: -40px;
+      top: 8px;
+      border: 3px solid var(--cream);
+    }
+
+    .timeline-time {
+      color: #709ba4;
+      font-size: 13px;
+      letter-spacing: .1em;
+      margin-bottom: 7px;
+    }
+
+    .timeline-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+    }
+
+    .timeline-place {
+      margin-top: 4px;
+      color: #78888c;
+      font-size: 14px;
+    }
+
+    /* Places */
+
+    .places {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin-top: 55px;
+    }
+
+    .place {
+      background: rgba(255,255,255,.48);
+      padding: 40px 35px;
+      border: 1px solid rgba(52,81,91,.10);
+    }
+
+    .place-number {
+      color: var(--rose);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+    }
+
+    .place h3 {
+      margin: 15px 0 12px;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: 35px;
+    }
+
+    .place p {
+      margin: 5px 0;
+      color: #6f8186;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 75px 8vw;
+      background: #304d56;
+      color: white;
+      text-align: center;
+    }
+
+    footer .names {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 40px;
+    }
+
+    footer .date {
+      margin-top: 12px;
+      color: #c7dfe2;
+      font-size: 11px;
+      letter-spacing: .2em;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 650px) {
+      .envelope-stage {
+        height: 400px;
+      }
+
+      .invitation {
+        width: 70%;
+        height: 290px;
+      }
+
+      .envelope {
+        width: 82%;
+      }
+
+      .places {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown {
+        gap: 12px;
+      }
+
+      .countdown-item {
+        min-width: 48px;
+      }
+
+      section.content-section {
+        padding: 90px 8vw;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       OPENING ENVELOPE
+  ========================== -->
+
+  <section class="opening" id="opening">
+
+    <div class="opening-label">
+      Pozvánka na svatbu
+    </div>
+
+    <div class="temporary-monogram">
+      M & O
+    </div>
+
+    <div class="envelope-stage">
+
+      <!-- Invitation hidden inside envelope -->
+      <div class="invitation">
+        <div class="invitation-small">
+          Naše svatba
+        </div>
+
+        <div class="invitation-names">
+          Maruška <span>&</span> Olda
+        </div>
+
+        <div class="invitation-date">
+          20. 5. 2028
+        </div>
+
+        <div class="invitation-line"></div>
+
+        <div class="invitation-text">
+          a moc rádi u toho budeme mít právě vás.
+        </div>
+      </div>
+
+      <!-- Envelope -->
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Otevřít pozvánku">
+
+        <div class="envelope-back"></div>
+
+        <div class="envelope-front"></div>
+
+        <div class="envelope-flap"></div>
+
+        <div class="seal">
+          M&O
+        </div>
+
+        <div class="open-label">
+          Klikněte pro otevření →
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Decorative branches -->
+    <div class="branch left">
+      <div class="stem"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+    </div>
+
+    <div class="branch right">
+      <div class="stem"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+      <div class="leaf"></div>
+    </div>
+
+    <div class="opening-hint">
+      Maruška & Olda · 20. 5. 2028
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN WEBSITE
+  ========================== -->
+
+  <main class="website" id="website">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="eyebrow">
+        Budeme se brát
+      </div>
+
+      <h1>
+        Maruška
+        <span>& Olda</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        a moc rádi u toho budeme mít právě vás.
+      </p>
+
+      <div class="countdown" aria-label="Odpočítávání do svatby">
+
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">--</div>
+          <div class="countdown-label">dní</div>
+        </div>
+
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">--</div>
+          <div class="countdown-label">hodin</div>
+        </div>
+
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">--</div>
+          <div class="countdown-label">minut</div>
+        </div>
+
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">--</div>
+          <div class="countdown-label">sekund</div>
+        </div>
+
+      </div>
+
+      <div class="branch left">
+        <div class="stem"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+      </div>
+
+      <div class="branch right">
+        <div class="stem"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+        <div class="leaf"></div>
+      </div>
+
+    </section>
+
+
+    <!-- STORY -->
+
+    <section class="content-section">
+
+      <div class="section-inner">
+
+        <div class="section-eyebrow">
+          To jsme my
+        </div>
+
+        <h2>
+          Jedna velká<br>
+          <em>radost</em>
+        </h2>
+
+        <p class="story-text">
+          Tady jednou bude náš příběh. O tom, jak jsme se poznali,
+          co jsme spolu zažili a jak jsme se dostali až sem.
+          Zatím tu necháváme malé místo pro naši společnou fotografii.
+        </p>
+
+        <div class="photo-placeholder">
+          Sem později přijde naše fotografie ♡
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WEDDING DAY -->
+
+    <section class="content-section blue-section">
+
+      <div class="section-inner">
+
+        <div class="section-eyebrow">
+          Náš svatební den
+        </div>
+
+        <h2>
+          Den, na který<br>
+          <em>se těšíme.</em>
+        </h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-time">
+              11:00
+            </div>
+
+            <div class="timeline-title">
+              Svatební obřad
+            </div>
+
+            <div class="timeline-place">
+              Kostel sv. Mikuláše · Znojmo
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-time">
+              Poté
+            </div>
+
+            <div class="timeline-title">
+              Oslava & hostina
+            </div>
+
+            <div class="timeline-place">
+              Stodola Suška · Kravsko
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PLACES -->
+
+    <section class="content-section">
+
+      <div class="section-inner">
+
+        <div class="section-eyebrow">
+          Kde se potkáme
+        </div>
+
+        <h2>
+          Dvě místa,<br>
+          <em>jeden den.</em>
+        </h2>
+
+        <div class="places">
+
+          <article class="place">
+
+            <div class="place-number">
+              01
+            </div>
+
+            <h3>
+              Kostel sv. Mikuláše
+            </h3>
+
+            <p>
+              Mikulášské náměstí 50/3<br>
+              669 02 Znojmo 2
+            </p>
+
+            <p>
+              Svatební obřad · 11:00
+            </p>
+
+          </article>
+
+
+          <article class="place">
+
+            <div class="place-number">
+              02
+            </div>
+
+            <h3>
+              Stodola Suška
+            </h3>
+
+            <p>
+              Kravsko<br>
+              671 51 Kravsko
+            </p>
+
+            <p>
+              Oslava a hostina
+            </p>
+
+            <p style="margin-top:18px;font-size:11px;">
+              Místo zatím potvrzujeme.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CLOSING -->
+
+    <section class="content-section blue-section" style="text-align:center;">
+
+      <div class="section-inner">
+
+        <div class="section-eyebrow">
+          Uložte si datum
+        </div>
+
+        <h2>
+          Těšíme se,<br>
+          <em>že budete u toho.</em>
+        </h2>
+
+        <p class="story-text" style="margin:35px auto 0;">
+          Další podrobnosti budeme postupně přidávat.
+          Tohle je teprve začátek.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    <div class="names">
+      Maruška & Olda
+    </div>
+
+    <div class="date">
+      S láskou · 20. 5. 2028
+    </div>
+  </footer>
+
+
+  <script>
+
+    /* =========================
+       ENVELOPE
+    ========================== */
+
+    const opening = document.getElementById("opening");
+    const envelope = document.getElementById("envelope");
+
+    function openInvitation() {
+      if (opening.classList.contains("opened")) return;
+
+      opening.classList.add("opened");
+
+      /*
+        After the physical invitation has risen out
+        of the envelope, gently scroll toward the website.
+      */
+
+      setTimeout(() => {
+        document.getElementById("website").scrollIntoView({
+          behavior: "smooth"
+        });
+      }, 1900);
+    }
+
+    envelope.addEventListener("click", openInvitation);
+
+    envelope.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openInvitation();
+      }
+    });
+
+
+    /* =========================
+       COUNTDOWN
+    ========================== */
+
+    const weddingDate = new Date("2028-05-20T11:00:00");
+
+    function updateCountdown() {
+
+      const now = new Date();
+      const difference = weddingDate - now;
+
+      if (difference <= 0) {
+        document.getElementById("days").textContent = "0";
+        document.getElementById("hours").textContent = "0";
+        document.getElementById("minutes").textContent = "0";
+        document.getElementById("seconds").textContent = "0";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+      );
+      const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+      );
+      const seconds = Math.floor(
+        (difference / 1000) % 60
+      );
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+  </script>
+
+</body>
+</html>
